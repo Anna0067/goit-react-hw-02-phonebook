@@ -32,3 +32,12 @@
 .contactItem {
   margin-bottom: 8px;
 }
+
+.deleteButton {
+  color: white;
+  margin: 10px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  border: none;
+  padding: 5px;
+}

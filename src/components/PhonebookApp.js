@@ -1,3 +1,4 @@
+// PhonebookApp.jsx
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
@@ -15,6 +16,13 @@ const PhonebookApp = () => {
   });
 
   const addContact = () => {
+    const contactAlreadyExists = contactExists(state.name);
+
+    if (contactAlreadyExists) {
+      alert('Contact with this name already exists!');
+      return;
+    }
+
     const newContact = {
       id: nanoid(),
       name: state.name,
@@ -31,6 +39,17 @@ const PhonebookApp = () => {
 
   const handleFilterChange = e => {
     setState({ ...state, filter: e.target.value });
+  };
+
+  const contactExists = name => {
+    return state.contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+  };
+
+  const handleDeleteContact = id => {
+    const updatedContacts = state.contacts.filter(contact => contact.id !== id);
+    setState({ ...state, contacts: updatedContacts });
   };
 
   const filteredContacts = state.contacts.filter(contact =>
@@ -51,7 +70,10 @@ const PhonebookApp = () => {
 
       <h2 className={styles.label}>Contacts:</h2>
 
-      <ContactList contacts={filteredContacts} />
+      <ContactList
+        contacts={filteredContacts}
+        onDeleteContact={handleDeleteContact}
+      />
     </div>
   );
 };
